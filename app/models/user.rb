@@ -10,4 +10,8 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
 
   validates :name, presence: true
+
+  def following?(other_user)
+    following.include?(other_user)
+  end
 end
