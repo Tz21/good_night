@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def friends_sleep_records
-    user = User.find(params[:id])
+    user = User.includes(following: { sleep_records: :user }).find(params[:id])
     records = user.following.map do |friend|
       {
         name: friend.name,
