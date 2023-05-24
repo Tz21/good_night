@@ -8,5 +8,10 @@ RSpec.describe User, type: :model do
 
       expect(user.sleep_records.count).to eq(1)
     end
+
+    it 'is invalid without a name' do
+      user = build(:user, name: nil)
+      expect(user).to_not be_valid
+    end
   end
 end
