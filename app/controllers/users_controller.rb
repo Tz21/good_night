@@ -12,4 +12,16 @@ class UsersController < ApplicationController
     user.following.delete(other_user)
     render json: { following: user.following }
   end
+
+  def friends_sleep_records
+    user = User.find(params[:id])
+    records = user.following.map do |friend|
+      {
+        name: friend.name,
+        sleep_records: friend.sleep_records.where('start_time >= ?', 1.week.ago)
+      }
+    end
+    records.sort_by! { |record| record[:sleep_records].sum { |r| r.end_time - r.start_time } }
+    render json: records
+  end
 end
